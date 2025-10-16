@@ -1,0 +1,2175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Bookstore Management System - 10 Phases</title>
+    <style>
+        /* PHASE 1: CSS FOUNDATION & DESIGN SYSTEM */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #51cf66 0%, #40c057 100%);
+            --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            --warning-gradient: linear-gradient(135deg, #ffd93d 0%, #ff9f43 100%);
+            --info-gradient: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
+            --shadow-light: 0 8px 32px rgba(0,0,0,0.1);
+            --shadow-heavy: 0 20px 60px rgba(0,0,0,0.15);
+            --border-radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* PHASE 2: HEADER & NAVIGATION DESIGN */
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            background: linear-gradient(45deg, #fff, #f0f8ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            margin-bottom: 20px;
+        }
+
+        .phase-indicator {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 6px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-light);
+            overflow-x: auto;
+            backdrop-filter: blur(20px);
+        }
+
+        .nav-tab {
+            flex: 1;
+            min-width: 120px;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: var(--transition);
+            white-space: nowrap;
+            position: relative;
+        }
+
+        .nav-tab:hover {
+            background: #f8f9ff;
+            transform: translateY(-1px);
+        }
+
+        .nav-tab.active {
+            background: var(--primary-gradient);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        /* PHASE 3: CONTENT LAYOUT & ANIMATIONS */
+        .tab-content {
+            display: none;
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: var(--shadow-heavy);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: slideInUp 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* PHASE 4: FORM COMPONENTS & INPUT DESIGN */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input, select, textarea {
+            padding: 14px 18px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: rgba(255,255,255,0.9);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+            background: white;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* PHASE 5: BUTTON SYSTEM & INTERACTIONS */
+        .btn {
+            padding: 14px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            margin: 5px;
+            display: inline-block;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-danger {
+            background: var(--danger-gradient);
+            color: white;
+        }
+
+        .btn-success {
+            background: var(--success-gradient);
+            color: white;
+        }
+
+        .btn-warning {
+            background: var(--warning-gradient);
+            color: white;
+        }
+
+        .btn-info {
+            background: var(--info-gradient);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 14px;
+        }
+
+        /* PHASE 6: DATA TABLES & GRID SYSTEMS */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-light);
+            background: white;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e0e6ed;
+            transition: var(--transition);
+        }
+
+        th {
+            background: var(--primary-gradient);
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        tbody tr:hover {
+            background: #f8f9ff;
+            transform: scale(1.01);
+        }
+
+        tbody tr {
+            transition: var(--transition);
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        /* PHASE 7: STATISTICS & DASHBOARD CARDS */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #fff 0%, #f8f9ff 100%);
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: var(--shadow-light);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary-gradient);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-8px) rotate(1deg);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* PHASE 8: ADVANCED UI COMPONENTS */
+        .search-container {
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e0e6ed;
+            border-radius: 25px;
+            font-size: 16px;
+            transition: var(--transition);
+            background: rgba(255,255,255,0.9);
+        }
+
+        .search-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+            font-size: 20px;
+            pointer-events: none;
+        }
+
+        .alert {
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: 500;
+            border-left: 4px solid;
+            animation: slideInRight 0.4s ease;
+        }
+
+        .alert-success {
+            background: rgba(81, 207, 102, 0.1);
+            color: #2d7738;
+            border-left-color: #51cf66;
+        }
+
+        .alert-danger {
+            background: rgba(255, 107, 107, 0.1);
+            color: #c92a2a;
+            border-left-color: #ff6b6b;
+        }
+
+        .alert-warning {
+            background: rgba(255, 217, 61, 0.1);
+            color: #e67700;
+            border-left-color: #ffd93d;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-heavy);
+            animation: modalSlideIn 0.4s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -60%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        /* PHASE 9: RESPONSIVE DESIGN & MOBILE OPTIMIZATION */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            .nav-tabs {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .nav-tab {
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .tab-content {
+                padding: 20px;
+            }
+
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+
+            table {
+                font-size: 14px;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+            }
+
+            .stat-value {
+                font-size: 2.2rem;
+            }
+
+            .btn {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+
+        /* PHASE 10: ADVANCED FEATURES & ENHANCEMENTS */
+        .loading {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(102, 126, 234, 0.3);
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: var(--success-gradient);
+            color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow-light);
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            z-index: 1001;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e0e6ed;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: var(--shadow-light);
+            transition: var(--transition);
+            border: 1px solid #e0e6ed;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        .book-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .book-author {
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .book-price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stock-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .stock-high {
+            background: rgba(81, 207, 102, 0.2);
+            color: #2d7738;
+        }
+
+        .stock-medium {
+            background: rgba(255, 217, 61, 0.2);
+            color: #e67700;
+        }
+
+        .stock-low {
+            background: rgba(255, 107, 107, 0.2);
+            color: #c92a2a;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 14px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PHASE 1 & 2: HEADER AND NAVIGATION -->
+        <header>
+            <h1>📚 Smart Bookstore Management</h1>
+            <p class="subtitle">Complete 10-Phase Management System</p>
+            <span class="phase-indicator">All Phases Integrated</span>
+        </header>
+
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('dashboard')">📊 Dashboard</button>
+            <button class="nav-tab" onclick="showTab('inventory')">📖 Inventory</button>
+            <button class="nav-tab" onclick="showTab('sales')">💰 Sales</button>
+            <button class="nav-tab" onclick="showTab('customers')">👥 Customers</button>
+            <button class="nav-tab" onclick="showTab('suppliers')">🏢 Suppliers</button>
+            <button class="nav-tab" onclick="showTab('reports')">📈 Reports</button>
+            <button class="nav-tab" onclick="showTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <!-- PHASE 3: DASHBOARD TAB -->
+        <div id="dashboard" class="tab-content active">
+            <h2 style="margin-bottom: 25px; color: #333;">📊 Dashboard Overview</h2>
+            
+            <!-- Statistics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalBooks">1,247</div>
+                    <div class="stat-label">Total Books</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalSales">$12,890</div>
+                    <div class="stat-label">Monthly Sales</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalCustomers">342</div>
+                    <div class="stat-label">Customers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="lowStock">23</div>
+                    <div class="stat-label">Low Stock Items</div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="table-container">
+                <h3 style="padding: 20px; margin: 0; background: var(--primary-gradient); color: white;">Recent Activity</h3>
+                <table id="activityTable">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Activity</th>
+                            <th>Details</th>
+                            <th>User</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10:30 AM</td>
+                            <td>Book Added</td>
+                            <td>"The Great Gatsby" by F. Scott Fitzgerald</td>
+                            <td>Admin</td>
+                        </tr>
+                        <tr>
+                            <td>10:15 AM</td>
+                            <td>Sale Completed</td>
+                            <td>Order #1001 - $45.99</td>
+                            <td>Cashier1</td>
+                        </tr>
+                        <tr>
+                            <td>09:45 AM</td>
+                            <td>Stock Updated</td>
+                            <td>"Harry Potter Series" - 50 units added</td>
+                            <td>Manager</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PHASE 4: INVENTORY MANAGEMENT TAB -->
+        <div id="inventory" class="tab-content">
+            <h2 style="margin-bottom: 25px; color: #333;">📖 Inventory Management</h2>
+            
+            <!-- Search and Filter -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="bookSearch" placeholder="Search books by title, author, or ISBN...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <!-- Add New Book Form -->
+            <form id="bookForm" onsubmit="addBook(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="bookTitle">Book Title *</label>
+                        <input type="text" id="bookTitle" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookAuthor">Author *</label>
+                        <input type="text" id="bookAuthor" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookISBN">ISBN</label>
+                        <input type="text" id="bookISBN">
+                    </div>
+                    <div class="form-group">
+                        <label for="bookCategory">Category</label>
+                        <select id="bookCategory">
+                            <option value="Fiction">Fiction</option>
+                            <option value="Non-Fiction">Non-Fiction</option>
+                            <option value="Science">Science</option>
+                            <option value="Technology">Technology</option>
+                            <option value="History">History</option>
+                            <option value="Biography">Biography</option>
+                            <option value="Children">Children</option>
+                            <option value="Educational">Educational</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookPrice">Price ($) *</label>
+                        <input type="number" id="bookPrice" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookStock">Stock Quantity *</label>
+                        <input type="number" id="bookStock" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookSupplier">Supplier</label>
+                        <select id="bookSupplier">
+                            <option value="Penguin Books">Penguin Books</option>
+                            <option value="HarperCollins">HarperCollins</option>
+                            <option value="Random House">Random House</option>
+                            <option value="Macmillan">Macmillan</option>
+                            <option value="Local Supplier">Local Supplier</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="bookLocation">Shelf Location</label>
+                        <input type="text" id="bookLocation" placeholder="e.g., A1-B2">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="bookDescription">Description</label>
+                        <textarea id="bookDescription" placeholder="Book description..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Book to Inventory</button>
+                <button type="button" class="btn btn-warning" onclick="clearBookForm()">Clear Form</button>
+            </form>
+
+            <!-- Books Display -->
+            <div class="card-grid" id="booksGrid">
+                <!-- Books will be dynamically added here -->
+            </div>
+
+            <!-- Inventory Table -->
+            <div class="table-container">
+                <table id="inventoryTable">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>ISBN</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Stock</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Inventory data will be populated here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PHASE 5: SALES MANAGEMENT TAB -->
+        <div id="sales" class="tab-content">
+            <h2 style="margin-bottom: 25px; color: #333;">💰 Sales Management</h2>
+            
+            <!-- New Sale Form -->
+            <form id="saleForm" onsubmit="processSale(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="customerSelect">Customer</label>
+                        <select id="customerSelect">
+                            <option value="">Walk-in Customer</option>
+                            <option value="1">John Smith</option>
+                            <option value="2">Sarah Johnson</option>
+                            <option value="3">Mike Davis</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="saleDate">Sale Date</label>
+                        <input type="date" id="saleDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="paymentMethod">Payment Method</label>
+                        <select id="paymentMethod" required>
+                            <option value="">Select Method</option>
+                            <option value="Cash">Cash</option>
+                            <option value="Credit Card">Credit Card</option>
+                            <option value="Debit Card">Debit Card</option>
+                            <option value="Mobile Payment">Mobile Payment</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Sale Items -->
+                <h3 style="margin: 25px 0 15px 0;">Sale Items</h3>
+                <div id="saleItems">
+                    <div class="form-grid sale-item">
+                        <div class="form-group">
+                            <label>Book</label>
+                            <select class="book-select" required>
+                                <option value="">Select Book</option>
+                                <option value="1" data-price="12.99">The Great Gatsby</option>
+                                <option value="2" data-price="15.99">To Kill a Mockingbird</option>
+                                <option value="3" data-price="18.99">1984</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Quantity</label>
+                            <input type="number" class="quantity-input" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Unit Price</label>
+                            <input type="number" class="price-input" step="0.01" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Subtotal</label>
+                            <input type="number" class="subtotal-input" step="0.01" readonly>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-info" onclick="addSaleItem()">Add Item</button>
+                
+                <!-- Sale Summary -->
+                <div style="margin-top: 25px; padding: 20px; background: #f8f9ff; border-radius: 8px;">
+                    <h3>Sale Summary</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                        <div>
+                            <strong>Subtotal: $<span id="saleSubtotal">0.00</span></strong>
+                        </div>
+                        <div>
+                            <strong>Tax (8%): $<span id="saleTax">0.00</span></strong>
+                        </div>
+                        <div>
+                            <strong>Total: $<span id="saleTotal">0.00</span></strong>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-success">Process Sale</button>
+                <button type="button" class="btn btn-warning" onclick="clearSaleForm()">Clear Sale</button>
+            </form>
+
+            <!-- Sales History Table -->
+            <div class="table-container">
+                <h3 style="padding: 20px; margin: 0; background: var(--primary-gradient); color: white;">Recent Sales</h3>
+                <table id="salesTable">
+                    <thead>
+                        <tr>
+                            <th>Sale ID</th>
+                            <th>Date</th>
+                            <th>Customer</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Payment</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#001</td>
+                            <td>2025-09-19</td>
+                            <td>John Smith</td>
+                            <td>3</td>
+                            <td>$45.97</td>
+                            <td>Credit Card</td>
+                            <td class="table-actions">
+                                <button class="btn btn-sm btn-info">View</button>
+                                <button class="btn btn-sm btn-warning">Print</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PHASE 6: CUSTOMER MANAGEMENT TAB -->
+        <div id="customers" class="tab-content">
+            <h2 style="margin-bottom: 25px; color: #333;">👥 Customer Management</h2>
+            
+            <!-- Add Customer Form -->
+            <form id="customerForm" onsubmit="addCustomer(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="customerName">Full Name *</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="customerEmail">Email</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerPhone">Phone Number</label>
+                        <input type="tel" id="customerPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="customerType">Customer Type</label>
+                        <select id="customerType">
+                            <option value="Regular">Regular</option>
+                            <option value="Premium">Premium</option>
+                            <option value="Student">Student</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="customerAddress">Address</label>
+                        <textarea id="customerAddress" placeholder="Customer address..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Customer</button>
+                <button type="button" class="btn btn-warning" onclick="clearCustomerForm()">Clear Form</button>
+            </form>
+
+            <!-- Customer Search -->
+            <div class="search-container">
+                <input type="text" class="search-input" id="customerSearch" placeholder="Search customers by name, email, or phone...">
+                <span class="search-icon">🔍</span>
+            </div>
+
+            <!-- Customers Table -->
+            <div class="table-container">
+                <table id="customersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Type</th>
+                            <th>Total Purchases</th>
+                            <th>Last Visit</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#C001</td>
+                            <td>John Smith</td>
+                            <td>john.smith@email.com</td>
+                            <td>(555) 123-4567</td>
+                            <td><span class="stock-badge stock-high">Premium</span></td>
+                            <td>$234.50</td>
+                            <td>2025-09-18</td>
+                            <td class="table-actions">
+                                <button class="btn btn-sm btn-info">View</button>
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#C002</td>
+                            <td>Sarah Johnson</td>
+                            <td>sarah.j@email.com</td>
+                            <td>(555) 987-6543</td>
+                            <td><span class="stock-badge stock-medium">Student</span></td>
+                            <td>$89.30</td>
+                            <td>2025-09-15</td>
+                            <td class="table-actions">
+                                <button class="btn btn-sm btn-info">View</button>
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <button class="btn btn-sm btn-danger">Delete</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PHASE 7: SUPPLIERS MANAGEMENT TAB -->
+        <div id="suppliers" class="tab-content">
+            <h2 style="margin-bottom: 25px; color: #333;">🏢 Suppliers Management</h2>
+            
+            <!-- Add Supplier Form -->
+            <form id="supplierForm" onsubmit="addSupplier(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="supplierName">Company Name *</label>
+                        <input type="text" id="supplierName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplierContact">Contact Person</label>
+                        <input type="text" id="supplierContact">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplierEmail">Email</label>
+                        <input type="email" id="supplierEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplierPhone">Phone</label>
+                        <input type="tel" id="supplierPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="supplierRating">Rating</label>
+                        <select id="supplierRating">
+                            <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                            <option value="4">⭐⭐⭐⭐ Good</option>
+                            <option value="3">⭐⭐⭐ Average</option>
+                            <option value="2">⭐⭐ Poor</option>
+                            <option value="1">⭐ Very Poor</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="supplierTerms">Payment Terms</label>
+                        <select id="supplierTerms">
+                            <option value="Net 30">Net 30</option>
+                            <option value="Net 60">Net 60</option>
+                            <option value="COD">Cash on Delivery</option>
+                            <option value="Prepaid">Prepaid</option>
+                        </select>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="supplierAddress">Address</label>
+                        <textarea id="supplierAddress" placeholder="Supplier address..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="supplierNotes">Notes</label>
+                        <textarea id="supplierNotes" placeholder="Additional notes about supplier..."></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Supplier</button>
+                <button type="button" class="btn btn-warning" onclick="clearSupplierForm()">Clear Form</button>
+            </form>
+
+            <!-- Suppliers Table -->
+            <div class="table-container">
+                <table id="suppliersTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Company</th>
+                            <th>Contact Person</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Rating</th>
+                            <th>Terms</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#S001</td>
+                            <td>Penguin Books</td>
+                            <td>Alice Brown</td>
+                            <td>alice@penguin.com</td>
+                            <td>(555) 111-2222</td>
+                            <td>⭐⭐⭐⭐⭐</td>
+                            <td>Net 30</td>
+                            <td class="table-actions">
+                                <button class="btn btn-sm btn-info">View</button>
+                                <button class="btn btn-sm btn-warning">Edit</button>
+                                <button class="btn btn-sm btn-success">Order</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PHASE 8: REPORTS & ANALYTICS TAB -->
+        <div id="reports" class="tab-content">
+            <h2 style="margin-bottom: 25px; color: #333;">📈 Reports & Analytics</h2>
+            
+            <!-- Report Filters -->
+            <div class="form-grid" style="margin-bottom: 30px;">
+                <div class="form-group">
+                    <label for="reportType">Report Type</label>
+                    <select id="reportType">
+                        <option value="sales">Sales Report</option>
+                        <option value="inventory">Inventory Report</option>
+                        <option value="customers">Customer Report</option>
+                        <option value="financial">Financial Report</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="reportPeriod">Period</label>
+                    <select id="reportPeriod">
+                        <option value="today">Today</option>
+                        <option value="week">This Week</option>
+                        <option value="month">This Month</option>
+                        <option value="quarter">This Quarter</option>
+                        <option value="year">This Year</option>
+                        <option value="custom">Custom Range</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="startDate">Start Date</label>
+                    <input type="date" id="startDate">
+                </div>
+                <div class="form-group">
+                    <label for="endDate">End Date</label>
+                    <input type="date" id="endDate">
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="generateReport()">Generate Report</button>
+            <button class="btn btn-success" onclick="exportReport()">Export to Excel</button>
+            <button class="btn btn-info" onclick="printReport()">Print Report</button>
+
+            <!-- Report Display Area -->
+            <div id="reportDisplay" style="margin-top: 30px;">
+                <!-- Sample Sales Chart -->
+                <div style="background: white; padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <h3>Sales Trend (Last 7 Days)</h3>
+                    <div style="height: 200px; background: #f8f9ff; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-top: 15px;">
+                        <div style="text-align: center; color: #666;">
+                            📊 Interactive Chart Would Display Here<br>
+                            <small>Sales data visualization</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Selling Books -->
+                <div class="table-container">
+                    <h3 style="padding: 20px; margin: 0; background: var(--success-gradient); color: white;">Top Selling Books</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Book Title</th>
+                                <th>Author</th>
+                                <th>Units Sold</th>
+                                <th>Revenue</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>The Great Gatsby</td>
+                                <td>F. Scott Fitzgerald</td>
+                                <td>45</td>
+                                <td>$584.55</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>To Kill a Mockingbird</td>
+                                <td>Harper Lee</td>
+                                <td>38</td>
+                                <td>$607.62</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>1984</td>
+                                <td>George Orwell</td>
+                                <td>32</td>
+                                <td>$607.68</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PHASE 9: SETTINGS TAB -->
+        <div id="settings" class="tab-content">
+            <h2 style="margin-bottom: 25px; color: #333;">⚙️ System Settings</h2>
+            
+            <!-- Store Information -->
+            <h3>Store Information</h3>
+            <form id="storeSettingsForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="storeName">Store Name</label>
+                        <input type="text" id="storeName" value="Smart Bookstore">
+                    </div>
+                    <div class="form-group">
+                        <label for="storeEmail">Store Email</label>
+                        <input type="email" id="storeEmail" value="info@smartbookstore.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="storePhone">Store Phone</label>
+                        <input type="tel" id="storePhone" value="(555) 123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="taxRate">Tax Rate (%)</label>
+                        <input type="number" id="taxRate" step="0.01" value="8.00">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="storeAddress">Store Address</label>
+                        <textarea id="storeAddress">123 Main Street, City, State 12345</textarea>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary">Save Store Settings</button>
+            </form>
+
+            <!-- User Management -->
+            <h3 style="margin-top: 40px;">User Management</h3>
+            <form id="userForm" onsubmit="addUser(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="userName">Username</label>
+                        <input type="text" id="userName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userEmail">Email</label>
+                        <input type="email" id="userEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="userRole">Role</label>
+                        <select id="userRole">
+                            <option value="Admin">Admin</option>
+                            <option value="Manager">Manager</option>
+                            <option value="Cashier">Cashier</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="userPassword">Password</label>
+                        <input type="password" id="userPassword" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add User</button>
+            </form>
+
+            <!-- System Settings -->
+            <h3 style="margin-top: 40px;">System Settings</h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="currency">Currency</label>
+                    <select id="currency">
+                        <option value="USD">USD ($)</option>
+                        <option value="EUR">EUR (€)</option>
+                        <option value="GBP">GBP (£)</option>
+                        <option value="INR">INR (₹)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="lowStockThreshold">Low Stock Threshold</label>
+                    <input type="number" id="lowStockThreshold" value="10">
+                </div>
+                <div class="form-group">
+                    <label for="backupFrequency">Backup Frequency</label>
+                    <select id="backupFrequency">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="theme">Theme</label>
+                    <select id="theme">
+                        <option value="default">Default</option>
+                        <option value="dark">Dark Mode</option>
+                        <option value="light">Light Mode</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success">Save System Settings</button>
+            <button type="button" class="btn btn-warning">Reset to Defaults</button>
+            
+            <!-- Database Management -->
+            <h3 style="margin-top: 40px;">Database Management</h3>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <button class="btn btn-info">Backup Database</button>
+                <button class="btn btn-warning">Restore Database</button>
+                <button class="btn btn-primary">Export Data</button>
+                <button class="btn btn-success">Import Data</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PHASE 10: ADVANCED FEATURES -->
+    <!-- Loading Spinner -->
+    <div class="loading" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Notification System -->
+    <div class="notification" id="notification">
+        Operation completed successfully!
+    </div>
+
+    <!-- Modal for confirmations -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h3 id="modalTitle">Confirm Action</h3>
+            <p id="modalMessage">Are you sure you want to proceed?</p>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px;">
+                <button class="btn btn-danger" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-success" onclick="confirmAction()">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // PHASE 10: JAVASCRIPT FUNCTIONALITY - All 10 Phases Integration
+
+        // Global Variables
+        let books = [
+            { id: 1, title: "The Great Gatsby", author: "F. Scott Fitzgerald", isbn: "978-0-7432-7356-5", category: "Fiction", price: 12.99, stock: 25, location: "A1-B2", supplier: "Penguin Books" },
+            { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", isbn: "978-0-06-112008-4", category: "Fiction", price: 15.99, stock: 30, location: "A2-C1", supplier: "HarperCollins" },
+            { id: 3, title: "1984", author: "George Orwell", isbn: "978-0-452-28423-4", category: "Fiction", price: 18.99, stock: 8, location: "B1-A3", supplier: "Random House" }
+        ];
+
+        let customers = [
+            { id: 1, name: "John Smith", email: "john.smith@email.com", phone: "(555) 123-4567", type: "Premium", totalPurchases: 234.50, lastVisit: "2025-09-18" },
+            { id: 2, name: "Sarah Johnson", email: "sarah.j@email.com", phone: "(555) 987-6543", type: "Student", totalPurchases: 89.30, lastVisit: "2025-09-15" }
+        ];
+
+        let suppliers = [
+            { id: 1, company: "Penguin Books", contact: "Alice Brown", email: "alice@penguin.com", phone: "(555) 111-2222", rating: 5, terms: "Net 30" }
+        ];
+
+        let sales = [];
+        let currentEditId = null;
+
+        // Phase 1: Core System Functions
+        function showTab(tabName) {
+            // Hide all tabs
+            const tabs = document.querySelectorAll('.tab-content');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Remove active class from all nav tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            navTabs.forEach(tab => tab.classList.remove('active'));
+            
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked nav tab
+            event.target.classList.add('active');
+            
+            // Load tab-specific data
+            loadTabData(tabName);
+        }
+
+        function loadTabData(tabName) {
+            switch(tabName) {
+                case 'dashboard':
+                    updateDashboardStats();
+                    break;
+                case 'inventory':
+                    displayBooks();
+                    displayInventoryTable();
+                    break;
+                case 'customers':
+                    displayCustomersTable();
+                    break;
+                case 'suppliers':
+                    displaySuppliersTable();
+                    break;
+            }
+        }
+
+        // Phase 2: Dashboard Functions
+        function updateDashboardStats() {
+            document.getElementById('totalBooks').textContent = books.length.toLocaleString();
+            document.getElementById('totalSales').textContent = `${calculateTotalSales().toLocaleString()}`;
+            document.getElementById('totalCustomers').textContent = customers.length.toLocaleString();
+            document.getElementById('lowStock').textContent = books.filter(book => book.stock < 10).length;
+        }
+
+        function calculateTotalSales() {
+            return sales.reduce((total, sale) => total + sale.total, 0) || 12890;
+        }
+
+        // Phase 3: Book Management Functions
+        function addBook(event) {
+            event.preventDefault();
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const newBook = {
+                    id: books.length + 1,
+                    title: document.getElementById('bookTitle').value,
+                    author: document.getElementById('bookAuthor').value,
+                    isbn: document.getElementById('bookISBN').value,
+                    category: document.getElementById('bookCategory').value,
+                    price: parseFloat(document.getElementById('bookPrice').value),
+                    stock: parseInt(document.getElementById('bookStock').value),
+                    location: document.getElementById('bookLocation').value,
+                    supplier: document.getElementById('bookSupplier').value,
+                    description: document.getElementById('bookDescription').value
+                };
+                
+                books.push(newBook);
+                clearBookForm();
+                displayBooks();
+                displayInventoryTable();
+                updateDashboardStats();
+                
+                hideLoading();
+                showNotification('Book added successfully!', 'success');
+            }, 1000);
+        }
+
+        function clearBookForm() {
+            document.getElementById('bookForm').reset();
+        }
+
+        function displayBooks() {
+            const booksGrid = document.getElementById('booksGrid');
+            booksGrid.innerHTML = '';
+            
+            books.forEach(book => {
+                const stockStatus = book.stock > 20 ? 'high' : book.stock > 5 ? 'medium' : 'low';
+                const stockText = book.stock > 20 ? 'In Stock' : book.stock > 5 ? 'Low Stock' : 'Very Low';
+                
+                const bookCard = `
+                    <div class="book-card">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">by ${book.author}</div>
+                        <div class="book-price">${book.price}</div>
+                        <div style="margin: 10px 0;">
+                            <span class="stock-badge stock-${stockStatus}">${stockText} (${book.stock})</span>
+                        </div>
+                        <div class="table-actions" style="margin-top: 15px;">
+                            <button class="btn btn-sm btn-info" onclick="viewBook(${book.id})">View</button>
+                            <button class="btn btn-sm btn-warning" onclick="editBook(${book.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBook(${book.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+                booksGrid.innerHTML += bookCard;
+            });
+        }
+
+        function displayInventoryTable() {
+            const tableBody = document.querySelector('#inventoryTable tbody');
+            tableBody.innerHTML = '';
+            
+            books.forEach(book => {
+                const stockStatus = book.stock > 20 ? 'high' : book.stock > 5 ? 'medium' : 'low';
+                const stockText = book.stock > 20 ? 'In Stock' : book.stock > 5 ? 'Low Stock' : 'Very Low';
+                
+                const row = `
+                    <tr>
+                        <td>${book.title}</td>
+                        <td>${book.author}</td>
+                        <td>${book.isbn}</td>
+                        <td>${book.category}</td>
+                        <td>${book.price}</td>
+                        <td>${book.stock}</td>
+                        <td><span class="stock-badge stock-${stockStatus}">${stockText}</span></td>
+                        <td class="table-actions">
+                            <button class="btn btn-sm btn-info" onclick="viewBook(${book.id})">View</button>
+                            <button class="btn btn-sm btn-warning" onclick="editBook(${book.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBook(${book.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Phase 4: Sales Management Functions
+        function addSaleItem() {
+            const saleItems = document.getElementById('saleItems');
+            const newItem = document.querySelector('.sale-item').cloneNode(true);
+            
+            // Clear the values in the cloned item
+            const inputs = newItem.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                if (input.type === 'number' && input.classList.contains('quantity-input')) {
+                    input.value = 1;
+                } else if (input.type === 'number') {
+                    input.value = '';
+                } else {
+                    input.value = '';
+                }
+            });
+            
+            // Add remove button
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'btn btn-sm btn-danger';
+            removeBtn.textContent = 'Remove';
+            removeBtn.onclick = function() {
+                newItem.remove();
+                updateSaleTotal();
+            };
+            
+            newItem.appendChild(removeBtn);
+            saleItems.appendChild(newItem);
+            
+            // Add event listeners to new item
+            addSaleItemListeners(newItem);
+        }
+
+        function addSaleItemListeners(item) {
+            const bookSelect = item.querySelector('.book-select');
+            const quantityInput = item.querySelector('.quantity-input');
+            const priceInput = item.querySelector('.price-input');
+            const subtotalInput = item.querySelector('.subtotal-input');
+            
+            bookSelect.addEventListener('change', function() {
+                const selectedOption = this.options[this.selectedIndex];
+                const price = parseFloat(selectedOption.getAttribute('data-price')) || 0;
+                priceInput.value = price.toFixed(2);
+                updateItemSubtotal(item);
+            });
+            
+            quantityInput.addEventListener('input', () => updateItemSubtotal(item));
+        }
+
+        function updateItemSubtotal(item) {
+            const quantity = parseFloat(item.querySelector('.quantity-input').value) || 0;
+            const price = parseFloat(item.querySelector('.price-input').value) || 0;
+            const subtotal = quantity * price;
+            item.querySelector('.subtotal-input').value = subtotal.toFixed(2);
+            updateSaleTotal();
+        }
+
+        function updateSaleTotal() {
+            const subtotalInputs = document.querySelectorAll('.subtotal-input');
+            let subtotal = 0;
+            
+            subtotalInputs.forEach(input => {
+                subtotal += parseFloat(input.value) || 0;
+            });
+            
+            const tax = subtotal * 0.08;
+            const total = subtotal + tax;
+            
+            document.getElementById('saleSubtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('saleTax').textContent = tax.toFixed(2);
+            document.getElementById('saleTotal').textContent = total.toFixed(2);
+        }
+
+        function processSale(event) {
+            event.preventDefault();
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const saleItems = [];
+                const itemElements = document.querySelectorAll('.sale-item');
+                
+                itemElements.forEach(item => {
+                    const bookSelect = item.querySelector('.book-select');
+                    const quantity = parseFloat(item.querySelector('.quantity-input').value);
+                    const price = parseFloat(item.querySelector('.price-input').value);
+                    
+                    if (bookSelect.value && quantity > 0) {
+                        saleItems.push({
+                            bookId: bookSelect.value,
+                            bookTitle: bookSelect.options[bookSelect.selectedIndex].text,
+                            quantity: quantity,
+                            price: price,
+                            subtotal: quantity * price
+                        });
+                    }
+                });
+                
+                if (saleItems.length > 0) {
+                    const newSale = {
+                        id: sales.length + 1,
+                        date: document.getElementById('saleDate').value,
+                        customer: document.getElementById('customerSelect').value || 'Walk-in',
+                        customerName: document.getElementById('customerSelect').value ? 
+                                    document.getElementById('customerSelect').options[document.getElementById('customerSelect').selectedIndex].text : 'Walk-in Customer',
+                        items: saleItems,
+                        subtotal: parseFloat(document.getElementById('saleSubtotal').textContent),
+                        tax: parseFloat(document.getElementById('saleTax').textContent),
+                        total: parseFloat(document.getElementById('saleTotal').textContent),
+                        paymentMethod: document.getElementById('paymentMethod').value
+                    };
+                    
+                    sales.push(newSale);
+                    
+                    // Update stock quantities
+                    saleItems.forEach(item => {
+                        const book = books.find(b => b.id == item.bookId);
+                        if (book) {
+                            book.stock -= item.quantity;
+                        }
+                    });
+                    
+                    clearSaleForm();
+                    updateDashboardStats();
+                    displayInventoryTable();
+                    
+                    hideLoading();
+                    showNotification('Sale processed successfully!', 'success');
+                } else {
+                    hideLoading();
+                    showNotification('Please add at least one item to the sale', 'warning');
+                }
+            }, 1500);
+        }
+
+        function clearSaleForm() {
+            document.getElementById('saleForm').reset();
+            document.getElementById('saleItems').innerHTML = `
+                <div class="form-grid sale-item">
+                    <div class="form-group">
+                        <label>Book</label>
+                        <select class="book-select" required>
+                            <option value="">Select Book</option>
+                            <option value="1" data-price="12.99">The Great Gatsby</option>
+                            <option value="2" data-price="15.99">To Kill a Mockingbird</option>
+                            <option value="3" data-price="18.99">1984</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Quantity</label>
+                        <input type="number" class="quantity-input" min="1" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Unit Price</label>
+                        <input type="number" class="price-input" step="0.01" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Subtotal</label>
+                        <input type="number" class="subtotal-input" step="0.01" readonly>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('saleSubtotal').textContent = '0.00';
+            document.getElementById('saleTax').textContent = '0.00';
+            document.getElementById('saleTotal').textContent = '0.00';
+            
+            // Re-add event listeners to the first item
+            addSaleItemListeners(document.querySelector('.sale-item'));
+        }
+
+        // Phase 5: Customer Management Functions
+        function addCustomer(event) {
+            event.preventDefault();
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const newCustomer = {
+                    id: customers.length + 1,
+                    name: document.getElementById('customerName').value,
+                    email: document.getElementById('customerEmail').value,
+                    phone: document.getElementById('customerPhone').value,
+                    type: document.getElementById('customerType').value,
+                    address: document.getElementById('customerAddress').value,
+                    totalPurchases: 0,
+                    lastVisit: new Date().toISOString().split('T')[0]
+                };
+                
+                customers.push(newCustomer);
+                clearCustomerForm();
+                displayCustomersTable();
+                updateDashboardStats();
+                
+                hideLoading();
+                showNotification('Customer added successfully!', 'success');
+            }, 1000);
+        }
+
+        function clearCustomerForm() {
+            document.getElementById('customerForm').reset();
+        }
+
+        function displayCustomersTable() {
+            const tableBody = document.querySelector('#customersTable tbody');
+            tableBody.innerHTML = '';
+            
+            customers.forEach(customer => {
+                const typeClass = customer.type === 'Premium' ? 'high' : customer.type === 'Student' ? 'medium' : 'low';
+                
+                const row = `
+                    <tr>
+                        <td>#C${String(customer.id).padStart(3, '0')}</td>
+                        <td>${customer.name}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.phone}</td>
+                        <td><span class="stock-badge stock-${typeClass}">${customer.type}</span></td>
+                        <td>${customer.totalPurchases.toFixed(2)}</td>
+                        <td>${customer.lastVisit}</td>
+                        <td class="table-actions">
+                            <button class="btn btn-sm btn-info" onclick="viewCustomer(${customer.id})">View</button>
+                            <button class="btn btn-sm btn-warning" onclick="editCustomer(${customer.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteCustomer(${customer.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Phase 6: Supplier Management Functions
+        function addSupplier(event) {
+            event.preventDefault();
+            
+            showLoading();
+            
+            setTimeout(() => {
+                const newSupplier = {
+                    id: suppliers.length + 1,
+                    company: document.getElementById('supplierName').value,
+                    contact: document.getElementById('supplierContact').value,
+                    email: document.getElementById('supplierEmail').value,
+                    phone: document.getElementById('supplierPhone').value,
+                    rating: parseInt(document.getElementById('supplierRating').value),
+                    terms: document.getElementById('supplierTerms').value,
+                    address: document.getElementById('supplierAddress').value,
+                    notes: document.getElementById('supplierNotes').value
+                };
+                
+                suppliers.push(newSupplier);
+                clearSupplierForm();
+                displaySuppliersTable();
+                
+                hideLoading();
+                showNotification('Supplier added successfully!', 'success');
+            }, 1000);
+        }
+
+        function clearSupplierForm() {
+            document.getElementById('supplierForm').reset();
+        }
+
+        function displaySuppliersTable() {
+            const tableBody = document.querySelector('#suppliersTable tbody');
+            tableBody.innerHTML = '';
+            
+            suppliers.forEach(supplier => {
+                const stars = '⭐'.repeat(supplier.rating);
+                
+                const row = `
+                    <tr>
+                        <td>#S${String(supplier.id).padStart(3, '0')}</td>
+                        <td>${supplier.company}</td>
+                        <td>${supplier.contact}</td>
+                        <td>${supplier.email}</td>
+                        <td>${supplier.phone}</td>
+                        <td>${stars}</td>
+                        <td>${supplier.terms}</td>
+                        <td class="table-actions">
+                            <button class="btn btn-sm btn-info" onclick="viewSupplier(${supplier.id})">View</button>
+                            <button class="btn btn-sm btn-warning" onclick="editSupplier(${supplier.id})">Edit</button>
+                            <button class="btn btn-sm btn-success" onclick="orderFromSupplier(${supplier.id})">Order</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Phase 7: Reports and Analytics Functions
+        function generateReport() {
+            const reportType = document.getElementById('reportType').value;
+            const reportPeriod = document.getElementById('reportPeriod').value;
+            
+            showLoading();
+            
+            setTimeout(() => {
+                let reportData = '';
+                
+                switch(reportType) {
+                    case 'sales':
+                        reportData = generateSalesReport(reportPeriod);
+                        break;
+                    case 'inventory':
+                        reportData = generateInventoryReport();
+                        break;
+                    case 'customers':
+                        reportData = generateCustomerReport();
+                        break;
+                    case 'financial':
+                        reportData = generateFinancialReport(reportPeriod);
+                        break;
+                }
+                
+                document.getElementById('reportDisplay').innerHTML = reportData;
+                
+                hideLoading();
+                showNotification('Report generated successfully!', 'success');
+            }, 2000);
+        }
+
+        function generateSalesReport(period) {
+            return `
+                <div style="background: white; padding: 20px; border-radius: 12px;">
+                    <h3>Sales Report - ${period.toUpperCase()}</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">$12,890</div>
+                            <div class="stat-label">Total Sales</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">Orders</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">$82.69</div>
+                            <div class="stat-label">Average Order</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">425</div>
+                            <div class="stat-label">Items Sold</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateInventoryReport() {
+            const totalValue = books.reduce((sum, book) => sum + (book.price * book.stock), 0);
+            const lowStockItems = books.filter(book => book.stock < 10);
+            
+            return `
+                <div style="background: white; padding: 20px; border-radius: 12px;">
+                    <h3>Inventory Report</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value">${books.length}</div>
+                            <div class="stat-label">Total Books</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${totalValue.toFixed(2)}</div>
+                            <div class="stat-label">Inventory Value</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${lowStockItems.length}</div>
+                            <div class="stat-label">Low Stock Items</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">${books.reduce((sum, book) => sum + book.stock, 0)}</div>
+                            <div class="stat-label">Total Units</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function exportReport() {
+            showNotification('Report exported to Excel successfully!', 'success');
+        }
+
+        function printReport() {
+            window.print();
+        }
+
+        // Phase 8: User Management Functions
+        function addUser(event) {
+            event.preventDefault();
+            
+            showLoading();
+            
+            setTimeout(() => {
+                // Simulate user creation
+                clearUserForm();
+                
+                hideLoading();
+                showNotification('User added successfully!', 'success');
+            }, 1000);
+        }
+
+        function clearUserForm() {
+            document.getElementById('userForm').reset();
+        }
+
+        // Phase 9: Utility Functions
+        function showLoading() {
+            document.getElementById('loadingSpinner').style.display = 'block';
+        }
+
+        function hideLoading() {
+            document.getElementById('loadingSpinner').style.display = 'none';
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        function showModal(title, message, callback) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalMessage').textContent = message;
+            document.getElementById('modalOverlay').style.display = 'block';
+            
+            window.currentModalCallback = callback;
+        }
+
+        function closeModal() {
+            document.getElementById('modalOverlay').style.display = 'none';
+        }
+
+        function confirmAction() {
+            if (window.currentModalCallback) {
+                window.currentModalCallback();
+            }
+            closeModal();
+        }
+
+        // Phase 10: Advanced CRUD Operations
+        function viewBook(id) {
+            const book = books.find(b => b.id === id);
+            if (book) {
+                showModal('Book Details', 
+                    `Title: ${book.title}\nAuthor: ${book.author}\nISBN: ${book.isbn}\nPrice: ${book.price}\nStock: ${book.stock}`,
+                    null
+                );
+            }
+        }
+
+        function editBook(id) {
+            const book = books.find(b => b.id === id);
+            if (book) {
+                // Fill form with book data
+                document.getElementById('bookTitle').value = book.title;
+                document.getElementById('bookAuthor').value = book.author;
+                document.getElementById('bookISBN').value = book.isbn;
+                document.getElementById('bookCategory').value = book.category;
+                document.getElementById('bookPrice').value = book.price;
+                document.getElementById('bookStock').value = book.stock;
+                document.getElementById('bookLocation').value = book.location;
+                document.getElementById('bookSupplier').value = book.supplier;
+                document.getElementById('bookDescription').value = book.description || '';
+                
+                currentEditId = id;
+                
+                // Change button text
+                const submitBtn = document.querySelector('#bookForm button[type="submit"]');
+                submitBtn.textContent = 'Update Book';
+                
+                showNotification('Book loaded for editing', 'info');
+            }
+        }
+
+        function deleteBook(id) {
+            showModal('Delete Book', 'Are you sure you want to delete this book?', () => {
+                books = books.filter(b => b.id !== id);
+                displayBooks();
+                displayInventoryTable();
+                updateDashboardStats();
+                showNotification('Book deleted successfully!', 'success');
+            });
+        }
+
+        function viewCustomer(id) {
+            const customer = customers.find(c => c.id === id);
+            if (customer) {
+                showModal('Customer Details', 
+                    `Name: ${customer.name}\nEmail: ${customer.email}\nPhone: ${customer.phone}\nType: ${customer.type}\nTotal Purchases: ${customer.totalPurchases.toFixed(2)}`,
+                    null
+                );
+            }
+        }
+
+        function editCustomer(id) {
+            const customer = customers.find(c => c.id === id);
+            if (customer) {
+                document.getElementById('customerName').value = customer.name;
+                document.getElementById('customerEmail').value = customer.email;
+                document.getElementById('customerPhone').value = customer.phone;
+                document.getElementById('customerType').value = customer.type;
+                document.getElementById('customerAddress').value = customer.address || '';
+                
+                showNotification('Customer loaded for editing', 'info');
+            }
+        }
+
+        function deleteCustomer(id) {
+            showModal('Delete Customer', 'Are you sure you want to delete this customer?', () => {
+                customers = customers.filter(c => c.id !== id);
+                displayCustomersTable();
+                updateDashboardStats();
+                showNotification('Customer deleted successfully!', 'success');
+            });
+        }
+
+        // Search Functions
+        function setupSearch() {
+            // Book search
+            document.getElementById('bookSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredBooks = books.filter(book => 
+                    book.title.toLowerCase().includes(searchTerm) ||
+                    book.author.toLowerCase().includes(searchTerm) ||
+                    book.isbn.toLowerCase().includes(searchTerm)
+                );
+                displayFilteredBooks(filteredBooks);
+            });
+
+            // Customer search
+            document.getElementById('customerSearch').addEventListener('input', function(e) {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredCustomers = customers.filter(customer => 
+                    customer.name.toLowerCase().includes(searchTerm) ||
+                    customer.email.toLowerCase().includes(searchTerm) ||
+                    customer.phone.includes(searchTerm)
+                );
+                displayFilteredCustomers(filteredCustomers);
+            });
+        }
+
+        function displayFilteredBooks(filteredBooks) {
+            const booksGrid = document.getElementById('booksGrid');
+            booksGrid.innerHTML = '';
+            
+            filteredBooks.forEach(book => {
+                const stockStatus = book.stock > 20 ? 'high' : book.stock > 5 ? 'medium' : 'low';
+                const stockText = book.stock > 20 ? 'In Stock' : book.stock > 5 ? 'Low Stock' : 'Very Low';
+                
+                const bookCard = `
+                    <div class="book-card">
+                        <div class="book-title">${book.title}</div>
+                        <div class="book-author">by ${book.author}</div>
+                        <div class="book-price">${book.price}</div>
+                        <div style="margin: 10px 0;">
+                            <span class="stock-badge stock-${stockStatus}">${stockText} (${book.stock})</span>
+                        </div>
+                        <div class="table-actions" style="margin-top: 15px;">
+                            <button class="btn btn-sm btn-info" onclick="viewBook(${book.id})">View</button>
+                            <button class="btn btn-sm btn-warning" onclick="editBook(${book.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteBook(${book.id})">Delete</button>
+                        </div>
+                    </div>
+                `;
+                booksGrid.innerHTML += bookCard;
+            });
+        }
+
+        function displayFilteredCustomers(filteredCustomers) {
+            const tableBody = document.querySelector('#customersTable tbody');
+            tableBody.innerHTML = '';
+            
+            filteredCustomers.forEach(customer => {
+                const typeClass = customer.type === 'Premium' ? 'high' : customer.type === 'Student' ? 'medium' : 'low';
+                
+                const row = `
+                    <tr>
+                        <td>#C${String(customer.id).padStart(3, '0')}</td>
+                        <td>${customer.name}</td>
+                        <td>${customer.email}</td>
+                        <td>${customer.phone}</td>
+                        <td><span class="stock-badge stock-${typeClass}">${customer.type}</span></td>
+                        <td>${customer.totalPurchases.toFixed(2)}</td>
+                        <td>${customer.lastVisit}</td>
+                        <td class="table-actions">
+                            <button class="btn btn-sm btn-info" onclick="viewCustomer(${customer.id})">View</button>
+                            <button class="btn btn-sm btn-warning" onclick="editCustomer(${customer.id})">Edit</button>
+                            <button class="btn btn-sm btn-danger" onclick="deleteCustomer(${customer.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        // Initialize the application
+        function initializeApp() {
+            // Set default date to today
+            document.getElementById('saleDate').value = new Date().toISOString().split('T')[0];
+            
+            // Initialize dashboard
+            updateDashboardStats();
+            displayBooks();
+            displayInventoryTable();
+            
+            // Setup search functionality
+            setupSearch();
+            
+            // Add event listeners to the first sale item
+            addSaleItemListeners(document.querySelector('.sale-item'));
+            
+            // Setup modal click outside to close
+            document.getElementById('modalOverlay').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+            
+            console.log('Smart Bookstore Management System - All 10 Phases Initialized Successfully!');
+        }
+
+        // Start the application when the page loads
+        document.addEventListener('DOMContentLoaded', initializeApp);
+    </script>
+</body>
+</html>
