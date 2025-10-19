@@ -18,3 +18,5 @@ print(Employee.total_employees)
 e1.remove_employee("sai")
 
 print(Employee.total_employees)
+e1=Employee("sai","it",20000)
+print(Employee.total_employees)
